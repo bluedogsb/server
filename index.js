@@ -5,13 +5,13 @@ const keys = require('./config/keys');
 
 const app = express();
 
-//console.developers.google.com
 passport.use(
-    new GoogleStrategy({
-        clientID: keys.googleClientID, 
-        clientSecret: keys.googleClientSecret,
-        callbackURL: '/auth/google/callback'
-    }, 
+    new GoogleStrategy(
+        {
+            clientID: keys.GOOGLE_CLIENT_ID,
+            clientSecret: keys.GOOGLE_CLIENT_SECRET,
+            callbackURL: '/auth/google/callback'
+        },
         accessToken => {
             console.log(accessToken);
         }
@@ -19,7 +19,7 @@ passport.use(
 );
 
 app.get(
-    '/auth/google', 
+    '/auth/google',
     passport.authenticate('google', {
         scope: ['profile', 'email']
     })
