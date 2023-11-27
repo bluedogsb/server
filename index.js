@@ -12,8 +12,9 @@ passport.use(
             clientSecret: keys.googleClientSecret,
             callbackURL: '/auth/google/callback'
         },
-        accessToken => {
+        (accessToken, refreshToken, profile, done) => {
             console.log(accessToken);
+            done(null, profile);
         }
     )
 );
@@ -24,6 +25,13 @@ app.get(
         scope: ['profile', 'email']
     })
 );
+
+// app.get('/auth/google/callback',
+//     passport.authenticate('google', { failureRedirect: '/login' }),
+//     function (req, res) {
+//         // Successful authentication, redirect home.
+//         res.redirect('/article');
+//     });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
