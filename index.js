@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
 
+const app = express();
+
+
 /* GOOGLE AUTH */ 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -32,7 +35,6 @@ app.get('/auth/google/callback',
 
 
 /* EXPRESS PORT */
-const app = express();
 const PORT = process.env.PORT || 3000;
 // app.listen(PORT);
 app.listen(PORT, () => console.log('App listening on port ' + PORT));
