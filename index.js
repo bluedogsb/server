@@ -6,21 +6,6 @@ const passport = require('passport');
 
 const app = express();
 
-// // Set up logging and body parser
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-// app.use(logger('dev'));
-
-
-// Enable sessions
-// app.use(
-//     session({
-//         secret: process.env.SESSION_SECRET,
-//         saveUninitialized: true, 
-//         resave: true,
-//     }),
-// );
-
 /* GOOGLE AUTH */ 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -43,16 +28,19 @@ passport.use(
 
 // Consent Screen 
 app.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] }));
+    passport.authenticate('google', { 
+        scope: ['profile', 'email'] 
+    })
+);
 
 // Authorized redirect 
-app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/error', session: false }),
-    function (req, res) {
-        // Successful authentication, redirect success.
-        res.send("Success");
-        res.redirect('/success');
-    });
+// app.get('/auth/google/callback',
+//     passport.authenticate('google', { failureRedirect: '/error', session: false }),
+//     function (req, res) {
+//         // Successful authentication, redirect success.
+//         res.send("Success");
+//         res.redirect('/success');
+//     });
 
 
 /* EXPRESS PORT */
