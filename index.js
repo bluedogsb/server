@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 /* Mongoose Models */
 require('./models/User');
 
-// mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI);
 
 const app = express();
 
@@ -19,23 +19,17 @@ app.listen(PORT, () => console.log('App listening on port ' + PORT));
 
 
 /* Mongoose MongoDB */ 
-mongoose.set('strictQuery', false);
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URI)
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-        console.log(error);
-        process.exit(1);
-    }
-}
+// async function run() {
+//     try {
+//         // Connect the client to the server	(optional starting in v4.7)
+//         await client.connect();
+//         // Send a ping to confirm a successful connection
+//         await client.db("admin").command({ ping: 1 });
+//         console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//     } finally {
+//         // Ensures that the client will close when you finish/error
+//         await client.close();
+//     }
+// }
+// run().catch(console.dir);
 
-app.get('/', (req, res) => {
-    res.send({user: 'User1'});
-})
-
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Listening on ${PORT}`);
-    })
-})
