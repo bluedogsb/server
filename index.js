@@ -9,7 +9,20 @@ const mongoose = require('mongoose');
 /* Mongoose Models */
 require('./models/User');
 
-mongoose.connect(process.env.MONGO_URI);
+const DB = process.env.MONGO_URI;
+
+// mongoose.connect(process.env.MONGO_URI);
+mongoose
+    .connect(DB, {
+        usenewurlparser: true,
+        useunifiedtopology: true,
+    })
+    .then(() => {
+        console.log("Successfully connected ");
+    })
+    .catch((error) => {
+        console.log(`can not connect to database, ${error}`);
+    });
 
 const app = express();
 
