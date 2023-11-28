@@ -1,5 +1,8 @@
 const passport = require('passport');
+const mongoose = require('mongoose');
 require('dotenv').config({ path: './config.env'});
+
+const User = mongoose.model('users');
 
 /* GOOGLE AUTH */
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -12,9 +15,8 @@ passport.use(
             callbackURL: '/auth/google/callback'
         },
         (accessToken, refreshToken, profile, done) => {
-            console.log('access token', accessToken);
-            console.log('refresh token', refreshToken);
-            console.log('profile', profile);
+            //matchese id with profile id and creates a new mongoose User
+            new User({ googlgeId: profile.id }).save()
         }
     )
 );
