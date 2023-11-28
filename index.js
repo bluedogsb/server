@@ -34,6 +34,9 @@ app.get('/auth/google',
 );
 
 // Authorized redirect 
+
+app.get('/auth/google/callback', passport.authenticate('google'));
+
 // app.get('/auth/google/callback',
 //     passport.authenticate('google', { failureRedirect: '/error', session: false }),
 //     function (req, res) {
