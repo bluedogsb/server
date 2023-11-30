@@ -2,8 +2,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose; 
 
 const userSchema = new Schema ({
-    strict: false,
-    googleId: String
+    googleId: {
+        type: String,
+        strict: false
+    }
 });
 
 mongoose.model('users', userSchema)
+userSchema.insertOne;
