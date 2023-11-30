@@ -23,22 +23,17 @@ const DB = process.env.MONGO_URI;
 //         console.log(`can not connect to database, ${error}`);
 //     });
 
-// mongoose.connect(
-//     DB,
-//     (err) => {
-//         if (err) console.log(err)
-//         else console.log("mongdb is connected");
-//     }
-// );
 const connectToMongo = async () => {
     try {
-        mongoose.set("strictQuery", false);
-        mongoose.connect(DB);
-        console.log("Connected to Mongo Successfully!");
-    } catch (error) {
-        console.log(error);
+        mongoose.set('strictQuery', false)
+        mongoose.connect(DB)
+        console.log('Mongo connected')
     }
-};
+    catch (error) {
+        console.log(error)
+        process.exit()
+    }
+}
 module.exports = connectToMongo;
 
 
