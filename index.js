@@ -11,17 +11,35 @@ const mongoose = require('mongoose');
 /* Mongoose MongoDB */ 
 const DB = process.env.MONGO_URI;
 
-mongoose
-    .connect(DB, {
-        usenewurlparser: true,
-        useunifiedtopology: true,
-    })
-    .then(() => {
-        console.log("Successfully connected ");
-    })
-    .catch((error) => {
-        console.log(`can not connect to database, ${error}`);
-    });
+// mongoose
+//     .connect(DB, {
+//         usenewurlparser: true,
+//         useunifiedtopology: true,
+//     })
+//     .then(() => {
+//         console.log("Successfully connected ");
+//     })
+//     .catch((error) => {
+//         console.log(`can not connect to database, ${error}`);
+//     });
+
+// mongoose.connect(
+//     DB,
+//     (err) => {
+//         if (err) console.log(err)
+//         else console.log("mongdb is connected");
+//     }
+// );
+const connectToMongo = async () => {
+    try {
+        mongoose.set("strictQuery", false);
+        mongoose.connect(DB);
+        console.log("Connected to Mongo Successfully!");
+    } catch (error) {
+        console.log(error);
+    }
+};
+module.exports = connectToMongo;
 
 
 /* EXPRESS Server */
