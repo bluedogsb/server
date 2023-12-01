@@ -12,6 +12,8 @@ module.exports = (app) => {
 
     // Authorized redirect 
     app.get('/auth/google/callback', passport.authenticate('google'));
+
+    app.get('/test', (req, res) => { res.send('Hello! Express server connected')})
 };
 
 

@@ -20,12 +20,17 @@ mongoose.set('strictQuery', false);
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(DB);
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
+        console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline);
     } catch (error) {
         console.log(error);
         process.exit(1);
     }
 }
+
+app.get("/users/:id", async (req, res) => {
+    let users = req.params.id;
+    let user = await client.db("users").collection("")
+})
 
 require('./routes/authRoutes')(app);
 
