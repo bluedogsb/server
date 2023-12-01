@@ -34,7 +34,7 @@ const connectDB = async () => {
 const app = express();
 
 //Routes go here
-app.all('*', (req, res) => {
+app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
 })
 //Connect to the database before listening
