@@ -11,38 +11,44 @@ const mongoose = require('mongoose');
 /* Mongoose MongoDB */ 
 const DB = process.env.MONGO_URI;
 
-// mongoose
-//     .connect(DB, {
-//         usenewurlparser: true,
-//         useunifiedtopology: true,
-//     })
+// mongoose.connect(DB)
 //     .then(() => {
-//         console.log("Successfully connected ");
+//         console.log("Successfully connected ", `Server Port:${PORT}`);
 //     })
 //     .catch((error) => {
 //         console.log(`can not connect to database, ${error}`);
 //     });
 
-const connectToMongo = async () => {
+const connectDB = async () => {
     try {
-        mongoose.set('strictQuery', false)
-        mongoose.connect(DB)
-        console.log('Mongo connected')
-    }
-    catch (error) {
-        console.log(error)
-        process.exit()
+        const conn = await mongoose.connect(DB);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
     }
 }
-module.exports = connectToMongo;
 
 
 /* EXPRESS Server */
 const app = express();
 
+//Routes go here
+app.all('*', (req, res) => {
+    res.json({ "every thing": "is awesome" })
+})
+//Connect to the database before listening
+// connectDB().then(() => {
+//     app.listen(PORT, () => {
+//         console.log("listening for requests");
+//     })
+// })
+
 authRoutes(app);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('App listening on port ' + PORT));
+
+
 
 
