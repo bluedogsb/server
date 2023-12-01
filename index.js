@@ -7,16 +7,17 @@ const mongoose = require('mongoose');
 
 /* Mongoose MongoDB */
 const DB = process.env.MONGO_URI;
-mongoose.set('strictQuery', false);
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(DB);
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-        console.log(error);
-        process.exit(1);
-    }
-}
+mongoose.connect(DB);
+// mongoose.set('strictQuery', false);
+// const connectDB = async () => {
+//     try {
+//         const conn = await mongoose.connect(DB);
+//         console.log(`MongoDB Connected: ${conn.connection.host}`);
+//     } catch (error) {
+//         console.log(error);
+//         process.exit(1);
+//     }
+// }
 
 /* EXPRESS Server */
 const app = express();
