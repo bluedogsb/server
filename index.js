@@ -14,7 +14,6 @@ const app = express();
 //Routes go here
 app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
-    res.send({ title: 'Users'});
 })
 
 /* Mongoose MongoDB */
