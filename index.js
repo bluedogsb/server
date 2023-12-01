@@ -6,8 +6,6 @@ require('./services/passport');
 const mongoose = require('mongoose');
 
 
-
-
 /* EXPRESS Server */
 const app = express();
 
