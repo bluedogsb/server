@@ -5,4 +5,10 @@ const userSchema = new Schema ({
     googleId: String
 });
 
-mongoose.model('users', userSchema)
+// async function run() {
+//     mongoose.model('users', userSchema);
+
+//     await mongoose.model('users').findOne();
+// }
+
+mongoose.model('users', userSchema).findOne();

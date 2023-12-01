@@ -12,6 +12,8 @@ const app = express();
 //Routes go here
 app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
+    console.log("RES", res);
+    console.log("REQ", req);
 })
 
 /* Mongoose MongoDB */
@@ -26,11 +28,6 @@ const connectDB = async () => {
         process.exit(1);
     }
 }
-
-app.get("/users/:id", async (req, res) => {
-    let users = req.params.id;
-    let user = await client.db("users").collection("")
-})
 
 require('./routes/authRoutes')(app);
 
