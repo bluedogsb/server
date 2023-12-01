@@ -37,17 +37,26 @@ const app = express();
 app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
 })
-//Connect to the database before listening
-// connectDB().then(() => {
-//     app.listen(PORT, () => {
-//         console.log("listening for requests");
-//     })
+
+// app.post('/', (req, res) => {
+//     res.send('POST request to the homepage')
 // })
+app.all('/secret', (req, res, next) => {
+    console.log('Accessing the secret section ...')
+    next() // pass control to the next handler
+})
+
+// Connect to the database before listening
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
+})
 
 authRoutes(app);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('App listening on port ' + PORT));
+// app.listen(PORT, () => console.log('App listening on port ' + PORT));
 
 
 
