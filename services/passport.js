@@ -17,6 +17,8 @@ passport.use(
         (accessToken, refreshToken, profile, done) => {
             //matchese id with profile id and creates a new mongoose User
             new User({ googlgeId: profile.id }).save()
+            console.log('accessToken', accessToken);
+            console.log('profile', profile.id);
         }
     )
 );
