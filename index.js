@@ -11,18 +11,11 @@ const mongoose = require('mongoose');
 /* Mongoose MongoDB */ 
 const DB = process.env.MONGO_URI;
 
-// mongoose.connect(DB)
-//     .then(() => {
-//         console.log("Successfully connected ", `Server Port:${PORT}`);
-//     })
-//     .catch((error) => {
-//         console.log(`can not connect to database, ${error}`);
-//     });
-
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(DB);
         console.log(`MongoDB Connected: ${conn.connection.host}`);
+        await mongoose.model('User').findOne();
     } catch (error) {
         console.log(error);
         process.exit(1);
@@ -38,13 +31,13 @@ app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
 })
 
-// app.post('/', (req, res) => {
-//     res.send('POST request to the homepage')
-// })
-app.all('/secret', (req, res, next) => {
-    console.log('Accessing the secret section ...')
-    next() // pass control to the next handler
+app.post('/', (req, res) => {
+    res.send('POST request to the homepage')
 })
+// app.all('/secret', (req, res, next) => {
+//     console.log('Accessing the secret section ...')
+//     next() // pass control to the next handler
+// })
 
 // Connect to the database before listening
 // connectDB().then(() => {
