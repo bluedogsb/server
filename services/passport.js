@@ -25,17 +25,18 @@ passport.use(
         (accessToken, refreshToken, profile, done) => {
             // console.log('accessToken', accessToken);
             // console.log('profile', profile.id);
-            User.findOne({ googleId: profile.id }).then(existingUser => {
-                if (existingUser) {
-                    // we already have a record with the given profile ID
-                    done(null, existingUser);
-                } else {
-                    // we don't have a user record with this ID, make a new record!
-                    new User({ googleId: profile.id })
-                        .save()
-                        .then(user => done(null, user));
-                }
-            })
+            User.findOne({ googleId: profile.id }).save();
+            // User.findOne({ googleId: profile.id }).then(existingUser => {
+            //     if (existingUser) {
+            //         // we already have a record with the given profile ID
+            //         done(null, existingUser);
+            //     } else {
+            //         // we don't have a user record with this ID, make a new record!
+            //         new User({ googleId: profile.id })
+            //             .save()
+            //             .then(user => done(null, user));
+            //     }
+            // })
         }
     )
 );
