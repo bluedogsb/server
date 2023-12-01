@@ -5,9 +5,7 @@ const express = require('express');
 require('./services/passport');
 const mongoose = require('mongoose');
 
-/* Mongoose MongoDB */
-const DB = process.env.MONGO_URI;
-mongoose.connect(DB);
+
 // mongoose.set('strictQuery', false);
 // const connectDB = async () => {
 //     try {
@@ -27,6 +25,10 @@ app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
     res.send({ title: 'Users'});
 })
+
+/* Mongoose MongoDB */
+const DB = process.env.MONGO_URI;
+mongoose.connect(DB);
 
 require('./routes/authRoutes')(app);
 
