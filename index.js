@@ -6,16 +6,7 @@ require('./services/passport');
 const mongoose = require('mongoose');
 
 
-// mongoose.set('strictQuery', false);
-// const connectDB = async () => {
-//     try {
-//         const conn = await mongoose.connect(DB);
-//         console.log(`MongoDB Connected: ${conn.connection.host}`);
-//     } catch (error) {
-//         console.log(error);
-//         process.exit(1);
-//     }
-// }
+
 
 /* EXPRESS Server */
 const app = express();
@@ -28,7 +19,16 @@ app.get('/', (req, res) => {
 
 /* Mongoose MongoDB */
 const DB = process.env.MONGO_URI;
-mongoose.connect(DB);
+mongoose.set('strictQuery', false);
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(DB);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
+    }
+}
 
 require('./routes/authRoutes')(app);
 
