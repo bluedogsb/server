@@ -47,16 +47,16 @@ app.all('/secret', (req, res, next) => {
 })
 
 // Connect to the database before listening
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log("listening for requests");
-    })
-})
+// connectDB().then(() => {
+//     app.listen(PORT, () => {
+//         console.log("listening for requests");
+//     })
+// })
 
 authRoutes(app);
 
 const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => console.log('App listening on port ' + PORT));
+app.listen(PORT, () => console.log('App listening on port ' + PORT));
 
 
 
