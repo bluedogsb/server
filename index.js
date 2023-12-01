@@ -8,7 +8,15 @@ require('./services/passport');
 const authRoutes = require('./routes/authRoutes');
 const mongoose = require('mongoose');
 
-/* Mongoose MongoDB */ 
+/* EXPRESS Server */
+const app = express();
+
+//Routes go here
+app.get('/', (req, res) => {
+    res.json({ "every thing": "is awesome" })
+})
+
+/* Mongoose MongoDB */
 const DB = process.env.MONGO_URI;
 mongoose.set('strictQuery', false);
 const connectDB = async () => {
@@ -20,14 +28,6 @@ const connectDB = async () => {
         process.exit(1);
     }
 }
-
-/* EXPRESS Server */
-const app = express();
-
-//Routes go here
-app.get('/', (req, res) => {
-    res.json({ "every thing": "is awesome" })
-})
 
 authRoutes(app);
 
