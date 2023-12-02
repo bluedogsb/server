@@ -12,13 +12,11 @@ const app = express();
 //Routes go here
 app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
-    console.log("RES", res);
-    console.log("REQ", req);
 })
 
 /* Mongoose MongoDB */
 const DB = process.env.MONGO_URI;
-mongoose.set('strictQuery', false);
+mongoose.set('strictQuery', true);
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(DB);
