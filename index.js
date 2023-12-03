@@ -12,7 +12,7 @@ const app = express();
 const authRoutes = require('./routes/authRoutes');
 app.use('/auth', authRoutes);
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
     res.json({ "every thing": "is awesome" })
     res.send({title: 'users'});
 })
