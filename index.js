@@ -9,8 +9,6 @@ require('./services/passport');
 
 /* EXPRESS Server */
 const app = express();
-const authRoutes = require('./routes/authRoutes');
-app.use('/auth', authRoutes);
 
 /* Mongoose Connect */ 
 const DB = process.env.MONGO_URI
@@ -50,6 +48,9 @@ app.use((error, req, res, next) => {
     });
 });
 
+const authRoutes = require('./routes/authRoutes');
+app.use('/auth', authRoutes);
+
 /* Connect DB before listening to PORT */
 connectDB().then(() => {
     app.listen(PORT, () => {
@@ -58,13 +59,6 @@ connectDB().then(() => {
 })
 
 const PORT = process.env.PORT || 3000;
-
-// /* Connect DB before listening to PORT */
-// connectDB().then( () => {
-//     app.listen(PORT, () => {
-//         console.log(`Listening on port ${PORT}`);
-//     });
-// })
 
 
 
