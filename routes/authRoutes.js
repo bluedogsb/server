@@ -10,15 +10,14 @@ module.exports = (app) => {
         })
     );
 
-    app.get('/test', (req, res) => { res.send('Hello! Express server connected') })
-
-    // Authorized redirect 
-    // app.get('/auth/google/callback', passport.authenticate('google'));
-
     app.get("/auth/google/callback", passport.authenticate('google'), (req, res, next) => {
         user = req.user
         res.send(user)
     });
+
+    app.get('/api/current_user', (req, res) => {
+        res.send(req.user);
+    })
 };
 
 
