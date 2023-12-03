@@ -1,14 +1,17 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose; 
 
-const userSchema = new Schema ({
-    googleId: String
+// const userSchema = new Schema ({
+//     googleId: String
+// });
+
+const userSchema = mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
+    googleId: { type: String, },
+    name: { type: String },
+    email: {
+        type: String,
+    }
 });
 
-// async function run() {
-//     mongoose.model('users', userSchema);
-
-//     await mongoose.model('users').findOne();
-// }
-
-mongoose.model('users', userSchema).findOne();
+mongoose.model('users', userSchema);
