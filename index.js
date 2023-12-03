@@ -50,19 +50,21 @@ app.use((error, req, res, next) => {
     });
 });
 
-const PORT = process.env.PORT || 3000;
-
-app.get('*', (req, res) => {
-    res.json({ "every thing": "is awesome" })
-    res.send({ title: 'users' });
-})
-
 /* Connect DB before listening to PORT */
-connectDB().then( () => {
+connectDB().then(() => {
     app.listen(PORT, () => {
         console.log(`Listening on port ${PORT}`);
     });
 })
+
+const PORT = process.env.PORT || 3000;
+
+// /* Connect DB before listening to PORT */
+// connectDB().then( () => {
+//     app.listen(PORT, () => {
+//         console.log(`Listening on port ${PORT}`);
+//     });
+// })
 
 
 
