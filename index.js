@@ -12,11 +12,6 @@ const app = express();
 const authRoutes = require('./routes/authRoutes');
 app.use('/auth', authRoutes);
 
-app.get('*', (req, res) => {
-    res.json({ "every thing": "is awesome" })
-    res.send({title: 'users'});
-})
-
 /* Mongoose Connect */ 
 const DB = process.env.MONGO_URI
 const connectDB = async () => {
@@ -56,6 +51,11 @@ app.use((error, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
+
+app.get('*', (req, res) => {
+    res.json({ "every thing": "is awesome" })
+    res.send({ title: 'users' });
+})
 
 /* Connect DB before listening to PORT */
 connectDB().then( () => {
