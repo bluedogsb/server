@@ -4,28 +4,6 @@ const mongoose = require('mongoose');
 require('dotenv').config({ path: './config.env' });
 
 const User = mongoose.model('users');
-console.log('USER', User)
-
-// passport.use(
-//     new GoogleStrategy(
-//         {
-//             clientID: process.env.GOOGLE_CLIENT_ID,
-//             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//             callbackURL: '/auth/google/callback'
-//         },
-//         (accessToken, refreshToken, profile, done) => {
-//             User.findOne({ googleId: profile.id }).then(existingUser => {
-//                 if (existingUser) {
-//                     console.log('user is: ', existingUser);
-//                     // we already have a record with the given profile ID
-//                 } else {
-//                     // we don't have a user record with this ID, make a new record!
-//                     new User({ googleId: profile.id }).save();
-//                 }
-//             });
-//         }
-//     )
-// );
 
 passport.use(
     new GoogleStrategy({
