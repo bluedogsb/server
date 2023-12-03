@@ -46,17 +46,18 @@ const connectDB = async () => {
 //     });
 // });
 
+connectDB();
 const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => {
-//     console.log(`Listening on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+});
 
 /* Connect DB before listening to PORT */
-connectDB().then( () => {
-    app.listen(PORT, () => {
-        console.log(`Listening on port ${PORT}`);
-    });
-})
+// connectDB().then( () => {
+//     app.listen(PORT, () => {
+//         console.log(`Listening on port ${PORT}`);
+//     });
+// })
 
 
 
