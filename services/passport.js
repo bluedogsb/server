@@ -37,6 +37,8 @@ passport.use(
                     // we already have a record with the given profile ID
                     console.log('user is: ', existingUser);
                     done(null, existingUser);
+                    console.log('access token ', accessToken);
+                    console.log('refresh token ', refreshToken);
                 } else {
                     // we don't have a user record with this ID, make a new record!
                     new User({ googleId: profile.id })
