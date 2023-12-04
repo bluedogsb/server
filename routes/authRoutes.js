@@ -3,6 +3,13 @@ const passport = require('passport');
 /* PASSPORT SETUP */
 
 module.exports = (app) => {
+
+    app.get('*', (req, res) => {
+        res.json({ "every thing": "is awesome" })
+        res.send({ title: 'users' });
+        console.log('****request: ', req);
+    })
+
     // Consent Screen 
     app.get('/auth/google',
         passport.authenticate('google', {
@@ -19,10 +26,6 @@ module.exports = (app) => {
         res.send(req.user);
     })
 
-    app.get('*', (req, res) => {
-        res.json({ "every thing": "is awesome" })
-        res.send({ title: 'users' });
-    })
 };
 
 

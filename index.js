@@ -1,4 +1,5 @@
 require('dotenv').config({ path: 'config.env' });
+const bodyParser = require('body-parser');
 /* Mongoose Models -- keep instantiation of Users BEFORE routes */
 require('./models/User');
 const express = require('express');
@@ -33,24 +34,36 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /* ERROR Catch */ 
+app.use(bodyParser);
+app.use((req, res) => {
+    console.log(req.body); // this is what you want           
+
+    res.on("finish", () => {
+
+        console.log(res);
+
+    });
+
+});
 app.use((req, res, next) => {
     const error = new Error('Route not found');
     error.status = 404;
     next(error);
 });
 
-app.use((error, req, res, next) => {
-    res.status(error.status || 500);
-    res.json({
-        error: {
-            message: error.message,
-        },
-    });
-});
+// app.use((error, req, res, next) => {
+//     res.status(error.status || 500);
+//     res.json({
+//         error: {
+//             message: error.message,
+//         },
+//     });
+// });
 
 const authRoutes = require('./routes/authRoutes');
 app.use('/auth', authRoutes);
 
+/* ******** ISSUE IS THE ORDER OF ROUTING AND CONNECTING TO DB */
 /* Connect DB before listening to PORT */
 connectDB().then(() => {
     app.listen(PORT, () => {
