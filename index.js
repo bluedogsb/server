@@ -34,7 +34,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /* ERROR Catch */ 
-app.use(bodyParser);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false}));
+
 app.use((req, res) => {
     console.log(req.body); // this is what you want           
 
