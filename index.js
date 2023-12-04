@@ -1,5 +1,4 @@
 require('dotenv').config({ path: 'config.env' });
-const bodyParser = require('body-parser');
 /* Mongoose Models -- keep instantiation of Users BEFORE routes */
 require('./models/User');
 const express = require('express');
@@ -34,19 +33,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /* ERROR Catch */ 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 
 app.use((req, res) => {
     console.log(req.body); // this is what you want           
 
     res.on("finish", () => {
-
         console.log(res);
-
     });
 
 });
+
 app.use((req, res, next) => {
     const error = new Error('Route not found');
     error.status = 404;
