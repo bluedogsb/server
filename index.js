@@ -32,7 +32,7 @@ connectDB().then(() => {
 /* EXPRESS Server */
 const app = express();
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
     console.log('****request: ', req);
 
@@ -49,12 +49,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-/* ERROR Catch */ 
-app.use((req, res) => {
-    console.log(req.body); // this is what you want  
-});
-
 require('./routes/authRoutes')(app);
 
 const PORT = process.env.PORT || 3000;
-// app.listen(PORT);
