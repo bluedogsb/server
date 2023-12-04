@@ -43,7 +43,7 @@ passport.use(
                         .save()
                         .then(user => done(null, user));
 
-                    console.log('created new user: ', newUser);
+                    console.log('created new user: ', user);
                 }
             });
         }
