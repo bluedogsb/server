@@ -3,9 +3,7 @@ require('dotenv').config({ path: 'config.env' });
 require('./models/User');
 const express = require('express');
 const mongoose = require('mongoose');
-// const cookieSession = require('cookie-session');
 const session = require('express-session');
-// var MongoStore = require('connect-mongo')(session);
 const passport = require("passport");
 require('./services/passport');
 
@@ -38,23 +36,12 @@ app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
 })
 
-/* Cookie keys to indicate the cookie is unique  */ 
-// const cookieKey = process.env.COOKIE_KEY
-// app.use(
-//     cookieSession({
-//         maxAge: 30 * 24 * 60 * 60 * 1000,
-//         keys: cookieKey
-//     })
-// );
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
     secret: process.env.SECRET_SESSION_KEY,
     resave: false,
-    saveuninitialized: false,
-    cookie: { secure: true },
-    // store: new MongoStore({
-    //     mongooseConnection: mongoose.connection
-    // })
+    saveuninitialized: true,
+    cookie: { secure: true }
 }));
 
 app.use(passport.initialize());
