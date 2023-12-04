@@ -1,4 +1,5 @@
 const passport = require('passport');
+const jwt = require('passport-jwt')
 
 /* PASSPORT Routes SETUP */
 
@@ -40,6 +41,11 @@ module.exports = (app) => {
             })
         }
     ));
+
+    app.post('/profile', passport.authenticate('jwt', { sesion: false }), 
+        function(req, res) {
+            res.send(req.user.profile);
+        });
 
     app.get('/api/current_user', (req, res) => {
         if (req.user) {
