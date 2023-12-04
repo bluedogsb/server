@@ -32,21 +32,22 @@ passport.use(
             callbackURL: '/auth/google/callback',
             passReqToCallback: true
         },
-        (accessToken, refreshToken, profile, done) => {
-            User.findOne({ googleId: profile.id }).then(existingUser => {
+        (accessToken, refreshToken, profile, done, session) => {
+            User.findOne(
+                { 
+                    googleId: profile.id,
+                    session: false
+                })
+                .then(existingUser => {
                 if (existingUser) {
                     // we already have a record with the given profile ID
                     console.log('user is: ', existingUser);
                     done(null, existingUser);
-                    console.log('access token ', accessToken);
-                    console.log('refresh token ', refreshToken);
                 } else {
                     // we don't have a user record with this ID, make a new record!
                     new User({ googleId: profile.id })
-                        .save()
-                        .then(user => done(null, user));
-
-                    console.log('created new user: ', user);
+                        .save().then(user => done(null, user));
+                        console.log('created new user: ', user);
                 }
             });
         }
