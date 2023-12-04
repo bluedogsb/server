@@ -3,7 +3,7 @@ require('dotenv').config({ path: 'config.env' });
 require('./models/User');
 const express = require('express');
 const mongoose = require('mongoose');
-const session = require('express-session');
+// const session = require('express-session');
 const passport = require("passport");
 require('./services/passport');
 
@@ -38,11 +38,11 @@ app.get('/', (req, res) => {
 })
 
 // app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-    secret: process.env.SECRET_SESSION_KEY,
-    resave: false,
-    saveuninitialized: false
-}));
+// app.use(session({
+//     secret: process.env.SECRET_SESSION_KEY,
+//     resave: false,
+//     saveuninitialized: false
+// }));
 
 app.use(passport.initialize());
 app.use(passport.session());
