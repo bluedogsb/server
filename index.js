@@ -3,9 +3,12 @@ require('dotenv').config({ path: 'config.env' });
 require('./models/User');
 const express = require('express');
 const mongoose = require('mongoose');
-const session = require('express-session');
+// const session = require('express-session');
 const passport = require("passport");
 require('./services/passport');
+
+/* EXPRESS Server */
+const app = express();
 
 /* Mongoose.connect */ 
 const DB = process.env.MONGO_URI
@@ -29,23 +32,18 @@ connectDB().then(() => {
     } 
 })
 
-/* EXPRESS Server */
-const app = express();
-
-app.use(express.json());
-app.get('/', (req, res) => {
-    res.json({ "every thing": "is awesome" })
-})
-
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-    secret: process.env.SECRET_SESSION_KEY,
-    resave: false
-}));
-
+/* Initialize Passport */
 app.use(passport.initialize());
-app.use(passport.session());
 
 require('./routes/authRoutes')(app);
+
+const authCheck = (req, res, next) => {
+    next();
+};
+
+app.get("/", authCheck, (req, res) => {
+    res.status(200)
+    res.json({ "every thing": "is awesome" })
+});
 
 const PORT = process.env.PORT || 3000;

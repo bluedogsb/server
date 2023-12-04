@@ -1,61 +1,39 @@
 const passport = require('passport');
 
-/* PASSPORT SETUP */
-
-/* Middleware used in protected routes to 
-check if the user has been authenticated */
-const isLoggedIn = (req, res, next) => {
-    if (req.user) {
-        next();
-    } else {
-        res.sendStatus(401);
-    }
-}
+/* PASSPORT Routes SETUP */
 
 module.exports = (app) => {
 
-    // Consent Screen 
-    app.get('/auth/google',
-        passport.authenticate('google', {
-            scope: ['profile', 'email']
-        })
-    );
+    app.get("/login/success", (req, res) => {
+        if(req.user) {
+            res.json({
+                success: true, 
+                message: "user has successfully authenticated",
+                user: req.user, 
+                cookies: req.cookies
+            });
+        }
+    });
 
-    app.get('/auth/google/callback', 
-        passport.authenticate('google', {
-            failureRedirect: '/failed', 
-        }), 
-        function (req, res) {
-            res.redirect('/success')
+    app.get("login/failed", (req, res) => {
+        res.status(401).json({
+            success: false,
+            message: "user failed to authenticate."
         });
-    // app.get("/auth/google/callback", passport.authenticate('google'), (req, res, next) => {
-    //     user = req.user
-    //     res.send(user)
-    //     console.log('user', user);
-    // });
+    });
 
-    app.get('/failed', (req, res) => {
-        console.log("User is not authenticated");
-        res.send("Failed")
-    })
+    app.get("/logout", (req, res) => {
+        req.logout();
+        res.redirect("/")
+    });
 
-    app.get("/success", isLoggedIn, (req, res) => {
-        console.log('You are logged in');
-        res.send(`Welcome ${req.user.displayName}`)
-    })
+    app.get("/auth/google", passport.authenticate('google', {
+        scope: ['profile', 'email']
+    }));
 
-    app.get('api/logout', (req, res) => {
-        req.session.destroy((err) => {
-            if(err) {
-                console.log('Error while destroying sess', err);
-            } else {
-                req.logout(() => {
-                    console.log('You are logged out' );
-                    res.redirect('/')
-                })
-            }
-        })
-    })
+    app.get("/auth/google/callback", passport.authenticate('google', {
+        failureRedirect: '/auth/login/failed'
+    }));
 
     app.get('/api/current_user', (req, res) => {
         if (req.user) {
@@ -64,7 +42,7 @@ module.exports = (app) => {
             // res.send(req.user);
         } 
         else {
-            res.send('Please login by this URL: http://wild-sun-hat-frog.cyclic.app//auth/google');
+            res.send('Please login by this URL: http://localhost:3000/auth/google');
         }
     });
 }
