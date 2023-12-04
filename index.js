@@ -71,6 +71,11 @@ connectDB().then(() => {
     });
 })
 
+app.get('*', (req, res) => {
+    res.json({ "every thing": "is awesome" })
+    res.send({ title: 'users' });
+    console.log('****request: ', req);
+})
 const PORT = process.env.PORT || 3000;
 
 
