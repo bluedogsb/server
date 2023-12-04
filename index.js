@@ -45,8 +45,9 @@ app.get('/', (req, res) => {
 //         keys: cookieKey
 //     })
 // );
+app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-    secret: SECRET_SESSION_KEY,
+    secret: process.env.SECRET_SESSION_KEY,
     resave: false,
     saveuninitialized: true,
     cookie: { secure: true }
