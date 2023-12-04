@@ -32,16 +32,16 @@ connectDB().then(() => {
 /* EXPRESS Server */
 const app = express();
 
+app.use(express.json());
 app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
 })
 
-app.set('trust proxy', 1) // trust first proxy
+// app.set('trust proxy', 1) // trust first proxy
 app.use(session({
     secret: process.env.SECRET_SESSION_KEY,
     resave: false,
-    saveuninitialized: true,
-    cookie: { secure: true }
+    saveuninitialized: false
 }));
 
 app.use(passport.initialize());
