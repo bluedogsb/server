@@ -16,34 +16,25 @@ passport.use(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: '/auth/google/callback',
-            passReqToCallback: true
+            callbackURL: '/auth/google/callback'
         },
-        (accessToken, refreshToken, profile, done, session) => {
-            // User.findOne(
-            //     { 
-            //         googleId: profile.id,
-            //         session: false
-            //     })
-            //     .then(existingUser => {
-            //     if (existingUser) {
-            //         // we already have a record with the given profile ID
-            //         console.log('user is: ', existingUser);
-            //         done(null, existingUser);
-            //     } else {
-            //         // we don't have a user record with this ID, make a new record!
-            //         new User({ googleId: profile.id })
-            //             .save().then(user => done(null, user));
-            //             console.log('created new user: ', user);
-            //     }
-            // });
-            User.findOrCreate(
-                { googleId: profile.id },
-                { first_name: profile.displayName },
-                function (err, user) {
-                    return done(err, user)
+         async (accessToken, refreshToken, profile, done) => {
+            const currentUser = await User.findOne(
+                { 
+                    googleId: profile_json.id_str
+                })
+                // create new user if db doesn't have this user
+                if (!currentUser) {
+                    // we already have a record with the given profile ID
+                    const newUser = await new User({
+                        name: profile._json.name, 
+                    }).save();
+                    if(newUser) {
+                        done(null, newUser);
+                    }
                 }
-            );
+                done(null, currentUser);
+                console.log('user is: ', currentUser);
         }
     )
 );
