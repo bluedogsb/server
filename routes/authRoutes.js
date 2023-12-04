@@ -24,12 +24,16 @@ module.exports = (app) => {
     });
 
     app.get('/api/current_user', (req, res) => {
-        console.log("Current User from the api/current_user");
-        console.log('what is the req***', req);
-        // res.send(req.user);
-    })
-
-};
+        if (req.user) {
+            console.log("Current User from the api/current_user");
+            console.log('what is the req***', req);
+            // res.send(req.user);
+        } 
+        else {
+            res.send('Please login by this URL: http://localhost:3000/auth/google');
+        }
+    });
+}
 
 
 
