@@ -4,6 +4,12 @@ const passport = require('passport');
 
 module.exports = (app) => {
 
+    app.get('*', (req, res) => {
+        res.json({ "every thing": "is awesome" })
+        res.send({ title: 'users' });
+        console.log('****request: ', req);
+    })
+
     // Consent Screen 
     app.get('/auth/google',
         passport.authenticate('google', {
