@@ -7,7 +7,7 @@ const cookieSession = require('cookie-session');
 const passport = require("passport");
 require('./services/passport');
 
-/* Mongoose Connect */ 
+/* Mongoose.connect */ 
 const DB = process.env.MONGO_URI
 const connectDB = async () => {
     try {
@@ -21,18 +21,24 @@ const connectDB = async () => {
 
 /* Connect DB before listening to PORT */
 connectDB().then(() => {
+    console.log(mongoose.connection.readyState)
     if(mongoose.connection.readyState) {
         app.listen(PORT, () => {
             console.log(`Listening on port ${PORT}`);
         });
-    } else {
-        console.log(error);
-    }
+    } 
 })
 
 /* EXPRESS Server */
 const app = express();
 
+app.get('*', (req, res) => {
+    res.json({ "every thing": "is awesome" })
+    console.log('****request: ', req);
+
+})
+
+/* Cookie keys to indicate the cookie is unique  */ 
 const cookieKey = process.env.COOKIE_KEY
 app.use(
     cookieSession({
@@ -44,23 +50,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /* ERROR Catch */ 
-app.use(express.json());
-// app.use(express.urlencoded({ extended: true}));
-
 app.use((req, res) => {
-    console.log(req.body); // this is what you want           
-
-    res.on("finish", () => {
-        console.log(res);
-    });
-
+    console.log(req.body); // this is what you want  
 });
 
-const authRoutes = require('./routes/authRoutes');
-app.use('/auth', authRoutes);
-
-/* ******** ISSUE IS THE ORDER OF ROUTING AND CONNECTING TO DB */
+require('./routes/authRoutes')(app);
 
 const PORT = process.env.PORT || 3000;
-
-
+// app.listen(PORT);

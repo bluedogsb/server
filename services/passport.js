@@ -1,15 +1,23 @@
+/* Passport middleware to Node and Express to handle authentication */
 const passport = require('passport');
+/*GoogleStrategy is to handle google authentication in express */
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 require('dotenv').config({ path: './config.env' });
 
 const User = mongoose.model('users');
 
+/* Why Seralizeuser? -> If a user logs in to the application, the user should be checked whether
+he/she has already signed in before and to assign a unique value to the user to indicate it's a
+returning user. Basically creating a cookie. */
 passport.serializeUser((user, done) => {
     done(null, user.id);
 })
 
+/* Turn the id into mongoose model instance; cookie deserializer here */
 passport.deserializeUser((id, done) => {
+    console.log("Deserializing", id);
+    console.log(User.findById(id));
     User.findById(id)
         .then(user => {
             done(null, user);
