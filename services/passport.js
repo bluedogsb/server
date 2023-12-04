@@ -21,7 +21,8 @@ passport.use(
          async (accessToken, refreshToken, profile, done) => {
             const currentUser = await User.findOne(
                 { 
-                    googleId: profile_json.id_str
+                    googleId: profile.id, 
+                    accessToken: accessToken 
                 })
                 // create new user if db doesn't have this user
                 if (!currentUser) {
