@@ -34,11 +34,10 @@ module.exports = (app) => {
 
     app.get("/auth/google/callback", 
         passport.authenticate('google', 
-        async (req, res) => {
-            const userString = JSON.stringify(req.user)
-            jwt.sign({userString}, process.env.SECRET_SESSION_KEY, { expiresIn: '365d' }, (err, token) => {
-                res.send("<script>localStorage.setItem('token', '" + token + "'); window.close(); window.opener.document.getElementById('modal-toggle').checked = false;</script>");
-            })
+        async (req, res, next) => {
+            user = req.user
+            res.send(user)
+            console.log('user', user);
         }
     ));
 
