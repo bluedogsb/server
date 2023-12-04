@@ -34,8 +34,6 @@ const app = express();
 
 app.get('/', (req, res) => {
     res.json({ "every thing": "is awesome" })
-    console.log('****request: ', req);
-
 })
 
 /* Cookie keys to indicate the cookie is unique  */ 
