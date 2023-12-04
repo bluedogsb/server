@@ -31,9 +31,15 @@ module.exports = (app) => {
         scope: ['profile', 'email']
     }));
 
-    app.get("/auth/google/callback", passport.authenticate('google', {
-        failureRedirect: '/auth/login/failed'
-    }));
+    app.get("/auth/google/callback", 
+        passport.authenticate('google', 
+        async (req, res) => {
+            const userString = JSON.stringify(req.user)
+            jwt.sign({userString}, process.env.SECRET_SESSION_KEY, { expiresIn: '365d' }, (err, token) => {
+                res.send("<script>localStorage.setItem('token', '" + token + "'); window.close(); window.opener.document.getElementById('modal-toggle').checked = false;</script>");
+            })
+        }
+    ));
 
     app.get('/api/current_user', (req, res) => {
         if (req.user) {
