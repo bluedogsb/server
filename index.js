@@ -29,8 +29,8 @@ app.use(
         keys: cookieKey
     })
 );
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 /* ERROR Catch */ 
 app.use(express.json());
@@ -45,11 +45,11 @@ app.use((req, res) => {
 
 });
 
-app.use((req, res, next) => {
-    const error = new Error('Route not found');
-    error.status = 404;
-    next(error);
-});
+// app.use((req, res, next) => {
+//     const error = new Error('Route not found');
+//     error.status = 404;
+//     next(error);
+// });
 
 // app.use((error, req, res, next) => {
 //     res.status(error.status || 500);
@@ -69,13 +69,14 @@ connectDB().then(() => {
     app.listen(PORT, () => {
         console.log(`Listening on port ${PORT}`);
     });
+
+    app.get('*', (req, res) => {
+        res.json({ "every thing": "is awesome" })
+        res.send({ title: 'users' });
+        console.log('****request: ', req);
+    })
 })
 
-app.get('*', (req, res) => {
-    res.json({ "every thing": "is awesome" })
-    res.send({ title: 'users' });
-    console.log('****request: ', req);
-})
 const PORT = process.env.PORT || 3000;
 
 
