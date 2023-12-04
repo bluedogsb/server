@@ -3,7 +3,8 @@ require('dotenv').config({ path: 'config.env' });
 require('./models/User');
 const express = require('express');
 const mongoose = require('mongoose');
-const cookieSession = require('cookie-session');
+// const cookieSession = require('cookie-session');
+const session = require('express-session');
 const passport = require("passport");
 require('./services/passport');
 
@@ -37,13 +38,20 @@ app.get('/', (req, res) => {
 })
 
 /* Cookie keys to indicate the cookie is unique  */ 
-const cookieKey = process.env.COOKIE_KEY
-app.use(
-    cookieSession({
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        keys: cookieKey
-    })
-);
+// const cookieKey = process.env.COOKIE_KEY
+// app.use(
+//     cookieSession({
+//         maxAge: 30 * 24 * 60 * 60 * 1000,
+//         keys: cookieKey
+//     })
+// );
+app.use(session({
+    secret: SECRET_SESSION_KEY,
+    resave: false,
+    saveuninitialized: true,
+    cookie: { secure: true }
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
