@@ -35,13 +35,21 @@ module.exports = (app) => {
     app.get("/auth/google/callback", 
         passport.authenticate('google', 
         async (req, res, next) => {
-            user = req.user
-            res.send(user)
+            console.log('req', req)
+            // user = req.user
+            // res.send(user)
             console.log('user', user);
         }
     ));
 
-    app.post('/profile', passport.authenticate('jwt', { sesion: false }), 
+    app.post('/login/password',
+        passport.authenticate('local', {failureRedirect: '/login', faireMessage: true}),
+        function(req, res) {
+            res.redirect('/~' + req.user.username);
+        }
+    );
+
+    app.post('/profile', passport.authenticate('jwt', { session: false }), 
         function(req, res) {
             res.send(req.user.profile);
         });
