@@ -2,7 +2,6 @@
 const passport = require('passport');
 /*GoogleStrategy is to handle google authentication in express */
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const JwtStrategy = require("passport-jwt").Strategy
 const mongoose = require('mongoose');
 require('dotenv').config({ path: './config.env' });
 
@@ -10,7 +9,6 @@ const User = mongoose.model('users');
 
 
 /* Google Strategy */ 
-
 passport.use(
     new GoogleStrategy(
         {
@@ -18,52 +16,20 @@ passport.use(
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             callbackURL: '/auth/google/callback'
         },
-         async (accessToken, refreshToken, profile, done) => {
-            const currentUser = await User.findOne(
-                { 
-                    googleId: profile.id, 
-                    accessToken: accessToken 
-                })
-                // create new user if db doesn't have this user
-                if (!currentUser) {
+        (accessToken, refreshToken, profile, done) => {
+            console.log("accessToken", accessToken);
+            console.log("refreshToken", refreshToken);
+            console.log("profile", profile.id);
+            User.findOne({ googleId: profile.id }).then(existingUser => {
+                if (existingUser) {
                     // we already have a record with the given profile ID
-                    const newUser = await new User({
-                        name: profile._json.name, 
-                    }).save();
-                    if(newUser) {
-                        done(null, newUser);
-                    }
-                }
-                done(null, currentUser);
-                console.log('user is: ', currentUser);
-        }
-    )
-);
-
-/* JWT Strategy */
-const cookieExtractor = (req) => {
-    let token = null; 
-    if (req && req.cookies) {
-        token = req.cookies["access_token"];
-    }
-    return token; 
-}
-
-passport.use(
-    new JwtStrategy(
-        {
-            jwtFromRequest: cookieExtractor, 
-            secretOrKey: process.env.SECRET_SESSION_KEY
-        },
-        (payload, done) => {
-            User.findById(payload.sub, (err, user) => {
-                if (err) {
-                    return done(err, false);
-                }
-                if (user) {
-                    return done(null, user);
+                    done(null, existingUser);
+                    console.log(profile);
                 } else {
-                    return done(null, false);
+                    // we don't have a user record with this ID, make a new record!
+                    new User({ googleId: profile.id })
+                        .save()
+                        .then(user => done(null, user));
                 }
             });
         }

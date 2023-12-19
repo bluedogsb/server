@@ -1,70 +1,45 @@
+// /* PASSPORT Routes SETUP */
 const passport = require('passport');
-const jwt = require('passport-jwt')
 
-/* PASSPORT Routes SETUP */
-
-module.exports = (app) => {
-
-    app.get("/login/success", (req, res) => {
-        if(req.user) {
-            res.json({
-                success: true, 
-                message: "user has successfully authenticated",
-                user: req.user, 
-                cookies: req.cookies
-            });
-        }
-    });
-
-    app.get("login/failed", (req, res) => {
-        res.status(401).json({
-            success: false,
-            message: "user failed to authenticate."
-        });
-    });
-
-    app.get("/logout", (req, res) => {
-        req.logout();
-        res.redirect("/")
-    });
-
-    app.get("/auth/google", passport.authenticate('google', {
-        scope: ['profile', 'email']
-    }));
-
-    app.get("/auth/google/callback", 
-        passport.authenticate('google', 
-        async (req, res, next) => {
-            console.log('req', req)
-            // user = req.user
-            // res.send(user)
-            console.log('user', user);
-        }
-    ));
-
-    app.post('/login/password',
-        passport.authenticate('local', {failureRedirect: '/login', faireMessage: true}),
-        function(req, res) {
-            res.redirect('/~' + req.user.username);
-        }
+module.exports = app => {
+    app.get(
+        '/auth/google',
+        passport.authenticate('google', {
+            successRedirect: 'http://localhost:3000/',
+            failureRedirect: 'http://localhost:4000/auth/google',
+            scope: ['profile', 'email'],
+            accessType: 'offline'
+        })
     );
 
-    app.post('/profile', passport.authenticate('jwt', { session: false }), 
-        function(req, res) {
-            res.send(req.user.profile);
-        });
+    app.get('/auth/google/callback', // add **/auth**
+        (req, res, next) => {
+            passport.authenticate('google', { failureRedirect: '/auth/google/error' }, async (error, user, info) => {
+                if (error) {
+                    return res.send({ message: error.message });
+                }
+                if (user) {
+                    try {
+                        // your success code
+                        return res.send({
+                            data: res.data,
+                            message: 'Login Successful'
+                        });
+                    } catch (error) {
+                        // error msg 
+                        return res.send({ message: error.message });
+                    }
+                }
+            })(req, res, next);
+        }); 
+    // app.get('/auth/google/callback', passport.authenticate('google'));
+
+    app.get('/api/logout', (req, res) => {
+        req.logout();
+        res.send(req.user);
+    });
 
     app.get('/api/current_user', (req, res) => {
-        if (req.user) {
-            console.log("Current User from the api/current_user");
-            console.log('what is the req***', req);
-            // res.send(req.user);
-        } 
-        else {
-            res.send('Please login by this URL: http://localhost:3000/auth/google');
-        }
+        res.send(req.user);
     });
-}
-
-
-
+};

@@ -3,12 +3,19 @@ require('dotenv').config({ path: 'config.env' });
 require('./models/User');
 const express = require('express');
 const mongoose = require('mongoose');
-// const session = require('express-session');
+const cookieSession = require('cookie-session');
 const passport = require("passport");
 require('./services/passport');
 
 /* EXPRESS Server */
 const app = express();
+
+app.use(
+    cookieSession({
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        keys: [process.env.SECRET_SESSION_KEY]
+    })
+);
 
 /* Mongoose.connect */ 
 const DB = process.env.MONGO_URI
@@ -34,6 +41,7 @@ connectDB().then(() => {
 
 /* Initialize Passport */
 app.use(passport.initialize());
+app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 
