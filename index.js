@@ -1,7 +1,7 @@
-require('dotenv').config({ path: '.env' });
-
-if(process.env.NODE_ENV !== "production") {
-    require('dotenv').config({ path: '.env.development'});
+if (process.env.NODE_ENV === 'production') {
+    require('dotenv').config({ path: '.env' });
+} else {
+    require('dotenv').config({ path: '.env.development' });
 }
 
 /* Mongoose Models -- keep instantiation of Users BEFORE routes */
