@@ -32,7 +32,6 @@ module.exports = app => {
                 }
             })(req, res, next);
         }); 
-    // app.get('/auth/google/callback', passport.authenticate('google'));
 
     app.get('/api/logout', (req, res) => {
         req.logout();
