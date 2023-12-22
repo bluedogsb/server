@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Hi There!
+          <a href="/auth/google"> Sign in with Google </a>
         </a>
       </header>
     </div>
