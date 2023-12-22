@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require("passport");
 require('./services/passport');
+const cors = require('cors');
 
 /* EXPRESS Server */
 const app = express();
@@ -47,6 +48,7 @@ connectDB().then(() => {
 /* Initialize Passport */
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors());
 
 require('./routes/authRoutes')(app);
 
