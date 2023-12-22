@@ -1,9 +1,9 @@
 import 'materialize-css/dist/css/materialize.min.css';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-// import { createStore, applyMiddleware } from 'redux';
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
+import { thunk } from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 import App from './components/App';
@@ -21,5 +21,3 @@ root.render(
     <App />
   </Provider>
 );
-
-export default connect();

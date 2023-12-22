@@ -5,18 +5,18 @@ class Header extends Component {
         return (
             <nav>
                 <div className="nav-wrapper">
-                    <a path="/auth/google" className="left brand-logo">
+                    <a className="left brand-logo">
                         Dev
                     </a>
                     <ul className="right">
                         <li>
-                            <a>Login With Google </a>
+                            <a>Login With Google</a>
                         </li>
                     </ul>
                 </div>
             </nav>
-        )
+        );
     }
 }
 
-export default Header; 
+export default Header;
