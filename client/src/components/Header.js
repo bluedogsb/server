@@ -3,7 +3,18 @@ import React, { Component } from 'react';
 class Header extends Component {
     render() {
         return (
-            <h1> Header </h1>
+            <nav>
+                <div className="nav-wrapper">
+                    <a path="/auth/google" className="left brand-logo">
+                        Dev
+                    </a>
+                    <ul className="right">
+                        <li>
+                            <a>Login With Google </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         )
     }
 }

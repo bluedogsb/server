@@ -9,9 +9,10 @@ const SurveyNew = () => <h2>SurveyNew</h2>;
 const App = () => {
     return (
         <div>
+            <Header/>
             <BrowserRouter>
                 <Routes>
-                    <Route exact={true} path="/" component={<Header/>} />
+                    <Route path="/" component={Header} />
                     <Route path="/surveys" component={Dashboard} />
                     <Route path="/surveys/new" component={SurveyNew} />
                 </Routes>
