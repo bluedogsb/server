@@ -14,7 +14,6 @@ const App = () => {
                     <Route exact={true} path="/" component={<Header/>} />
                     <Route path="/surveys" component={Dashboard} />
                     <Route path="/surveys/new" component={SurveyNew} />
-                    <Route path="/" component={<Header/>} />
                 </Routes>
             </BrowserRouter>
         </div>
