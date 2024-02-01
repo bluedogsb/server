@@ -1,0 +1,2 @@
+## startup
+npm run dev
